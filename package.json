@@ -1,0 +1,27 @@
+{
+  "name": "@renaatdemuynck/svg-wheel-generator",
+  "description": "SVG Wheel Generator",
+  "version": "0.1.0",
+  "repository": "https://github.com/renaatdemuynck/svg-wheel-generator.git",
+  "author": "Renaat De Muynck <renaat.demuynck@gmail.com>",
+  "license": "MIT",
+  "main": "dist/svg-wheel-generator.js",
+  "module": "dist/svg-wheel-generator.esm.js",
+  "files": [
+    "dist/svg-wheel-generator.js",
+    "dist/svg-wheel-generator.esm.js"
+  ],
+  "dependencies": {
+    "kld-intersections": "^0.6.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "rollup": "^1.31.1",
+    "rollup-plugin-babel": "^4.3.3"
+  },
+  "scripts": {
+    "build": "rollup --config",
+    "prepare": "npm run build"
+  }
+}
