@@ -14,7 +14,7 @@ import { ShapeInfo, Intersection } from 'kld-intersections';
  * @returns {number} - An angle in radials
  */
 function degToRad(deg) {
-    return (deg - 90) / 180 * Math.PI;
+    return ((deg % 360) - 90) / 180 * Math.PI;
 }
 
 /**
