@@ -109,12 +109,12 @@ export function getRightParallelLine(start, end, offset) {
 export function getWheelSegmentPath(startAngle, endAngle, outerRadius, innerRadius = 0, spokeWidth = 0, origin = { x: 0, y: 0 }) {
     let leftLine = getRightParallelLine(
         origin,
-        getPointOnCircle(startAngle, outerRadius, origin),
+        getPointOnCircle(startAngle, outerRadius + 1, origin),
         spokeWidth / 2
     );
     let rightLine = getLeftParallelLine(
         origin,
-        getPointOnCircle(endAngle, outerRadius, origin),
+        getPointOnCircle(endAngle, outerRadius + 1, origin),
         spokeWidth / 2
     );
 
