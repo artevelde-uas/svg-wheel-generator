@@ -1,7 +1,7 @@
 {
   "name": "@renaatdemuynck/svg-wheel-generator",
   "description": "SVG Wheel Generator",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "repository": "https://github.com/renaatdemuynck/svg-wheel-generator.git",
   "author": "Renaat De Muynck <renaat.demuynck@gmail.com>",
   "license": "MIT",
