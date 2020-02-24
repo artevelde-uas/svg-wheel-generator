@@ -93,7 +93,7 @@ export function getRightParallelLine(start, end, offset) {
             x: end.x + offsetY,
             y: end.y - offsetX
         }
-    }
+    };
 }
 
 /**
