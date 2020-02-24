@@ -26,6 +26,19 @@ function stripWhitespace(path) {
 }
 
 /**
+ * Gets the (first) intersection point of two shapes
+ *
+ * The coordinates of the point will be round to a precision of two decimals
+ *
+ * @param {ShapeInfo} shape1 - The first shape
+ * @param {ShapeInfo} shape1 - The second shape
+ * @returns {Point} The intersection point
+ */
+function getIntersection(shape1, shape2) {
+    return Intersection.intersect(shape1, shape2).points[0];
+}
+
+/**
  * Converts degrees to radials
  *
  * @param  {number} deg - An angle in degrees
@@ -144,11 +157,11 @@ export function getWheelSegmentPath(startAngle, endAngle, outerRadius, innerRadi
     let outerCircleShape = ShapeInfo.circle(origin, outerRadius);
     let innerCircleShape = ShapeInfo.circle(origin, innerRadius);
 
-    let outerArcStart = Intersection.intersect(leftLineShape, outerCircleShape).points[0];
-    let outerArcEnd = Intersection.intersect(rightLineShape, outerCircleShape).points[0];
+    let outerArcStart = getIntersection(leftLineShape, outerCircleShape);
+    let outerArcEnd = getIntersection(rightLineShape, outerCircleShape);
 
     if (innerRadius <= spokeWidth) {
-        let lineIntersection = Intersection.intersect(leftLineShape, rightLineShape).points[0];
+        let lineIntersection = getIntersection(leftLineShape, rightLineShape);
 
         return stripWhitespace(`
             M ${outerArcStart.x} ${outerArcStart.y}
@@ -158,8 +171,8 @@ export function getWheelSegmentPath(startAngle, endAngle, outerRadius, innerRadi
         `);
     }
 
-    let innerArcStart = Intersection.intersect(rightLineShape, innerCircleShape).points[0];
-    let innerArcEnd = Intersection.intersect(leftLineShape, innerCircleShape).points[0];
+    let innerArcStart = getIntersection(rightLineShape, innerCircleShape);
+    let innerArcEnd = getIntersection(leftLineShape, innerCircleShape);
 
     return stripWhitespace(`
         M ${outerArcStart.x} ${outerArcStart.y}
@@ -221,8 +234,8 @@ export function getWheelSegmentArcTextPath(startAngle, endAngle, outerRadius, in
     let rightLineShape = ShapeInfo.line(rightLine.start, rightLine.end);
     let circleShape = ShapeInfo.circle(origin, middleRadius);
 
-    let textPathStart = Intersection.intersect(leftLineShape, circleShape).points[0];
-    let textPathEnd = Intersection.intersect(rightLineShape, circleShape).points[0];
+    let textPathStart = getIntersection(leftLineShape, circleShape);
+    let textPathEnd = getIntersection(rightLineShape, circleShape);
 
     return stripWhitespace(`
         M ${textPathStart.x} ${textPathStart.y}
@@ -273,8 +286,8 @@ export function getWheelSegmentLineTextPath(startAngle, endAngle, outerRadius, i
     let innerCircleShape = ShapeInfo.circle(origin, innerRadius);
     let outerCircleShape = ShapeInfo.circle(origin, outerRadius);
 
-    let textPathStart = Intersection.intersect(lineShape, innerCircleShape).points[0];
-    let textPathEnd = Intersection.intersect(lineShape, outerCircleShape).points[0];
+    let textPathStart = getIntersection(lineShape, innerCircleShape);
+    let textPathEnd = getIntersection(lineShape, outerCircleShape);
 
     return stripWhitespace(`
         M ${textPathStart.x} ${textPathStart.y}
