@@ -7,6 +7,10 @@ import { ShapeInfo, Intersection } from 'kld-intersections';
  * @property {number} y - The Y coordinate
  */
 
+function stripWhitespace(path) {
+    return path.replace(/\s+/g, ' ').trim();
+}
+
 /**
  * Converts degrees to radials
  *
@@ -128,13 +132,13 @@ export function getWheelSegmentPath(startAngle, endAngle, outerRadius, innerRadi
     let innerArcStart = Intersection.intersect(rightLineShape, innerCircleShape).points[0];
     let innerArcEnd = Intersection.intersect(leftLineShape, innerCircleShape).points[0];
 
-    return `
+    return stripWhitespace(`
         M ${outerArcStart.x} ${outerArcStart.y}
         A ${outerRadius} ${outerRadius} 0 0 1 ${outerArcEnd.x} ${outerArcEnd.y}
         L ${innerArcStart.x} ${innerArcStart.y}
         A ${innerRadius} ${innerRadius} 0 0 0 ${innerArcEnd.x} ${innerArcEnd.y}
         Z
-    `;
+    `);
 }
 
 /**
@@ -188,10 +192,10 @@ export function getWheelSegmentArcTextPath(startAngle, endAngle, outerRadius, in
     let textPathStart = Intersection.intersect(leftLineShape, circleShape).points[0];
     let textPathEnd = Intersection.intersect(rightLineShape, circleShape).points[0];
 
-    return `
+    return stripWhitespace(`
         M ${textPathStart.x} ${textPathStart.y}
         A ${middleRadius} ${middleRadius} 0 0 1 ${textPathEnd.x} ${textPathEnd.y}
-    `;
+    `);
 }
 
 /**
@@ -236,10 +240,10 @@ export function getWheelSegmentLineTextPath(startAngle, endAngle, outerRadius, i
     let textPathStart = Intersection.intersect(lineShape, innerCircleShape).points[0];
     let textPathEnd = Intersection.intersect(lineShape, outerCircleShape).points[0];
 
-    return `
+    return stripWhitespace(`
         M ${textPathStart.x} ${textPathStart.y}
         L ${textPathEnd.x} ${textPathEnd.y}
-    `;
+    `);
 }
 
 /**
