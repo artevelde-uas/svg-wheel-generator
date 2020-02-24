@@ -35,7 +35,12 @@ function stripWhitespace(path) {
  * @returns {Point} The intersection point
  */
 function getIntersection(shape1, shape2) {
-    return Intersection.intersect(shape1, shape2).points[0];
+    let point = Intersection.intersect(shape1, shape2).points[0];
+
+    return {
+        x: Math.round(point.x * 100) / 100,
+        y: Math.round(point.y * 100) / 100
+    };
 }
 
 /**
