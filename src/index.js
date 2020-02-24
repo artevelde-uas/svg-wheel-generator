@@ -129,6 +129,18 @@ export function getWheelSegmentPath(startAngle, endAngle, outerRadius, innerRadi
 
     let outerArcStart = Intersection.intersect(leftLineShape, outerCircleShape).points[0];
     let outerArcEnd = Intersection.intersect(rightLineShape, outerCircleShape).points[0];
+
+    if (innerRadius <= spokeWidth) {
+        let lineIntersection = Intersection.intersect(leftLineShape, rightLineShape).points[0];
+
+        return stripWhitespace(`
+            M ${outerArcStart.x} ${outerArcStart.y}
+            A ${outerRadius} ${outerRadius} 0 0 1 ${outerArcEnd.x} ${outerArcEnd.y}
+            L ${lineIntersection.x} ${lineIntersection.y}
+            Z
+        `);
+    }
+
     let innerArcStart = Intersection.intersect(rightLineShape, innerCircleShape).points[0];
     let innerArcEnd = Intersection.intersect(leftLineShape, innerCircleShape).points[0];
 
