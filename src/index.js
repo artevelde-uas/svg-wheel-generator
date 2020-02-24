@@ -242,6 +242,13 @@ export function getWheelSegmentArcTextPath(startAngle, endAngle, outerRadius, in
     let textPathStart = getIntersection(leftLineShape, circleShape);
     let textPathEnd = getIntersection(rightLineShape, circleShape);
 
+    if (textPathStart.x > textPathEnd.x) {
+        return stripWhitespace(`
+            M ${textPathEnd.x} ${textPathEnd.y}
+            A ${middleRadius} ${middleRadius} 0 0 0 ${textPathStart.x} ${textPathStart.y}
+        `);
+    }
+
     return stripWhitespace(`
         M ${textPathStart.x} ${textPathStart.y}
         A ${middleRadius} ${middleRadius} 0 0 1 ${textPathEnd.x} ${textPathEnd.y}
@@ -293,6 +300,13 @@ export function getWheelSegmentLineTextPath(startAngle, endAngle, outerRadius, i
 
     let textPathStart = getIntersection(lineShape, innerCircleShape);
     let textPathEnd = getIntersection(lineShape, outerCircleShape);
+
+    if (textPathStart.x > textPathEnd.x) {
+        return stripWhitespace(`
+            M ${textPathEnd.x} ${textPathEnd.y}
+            L ${textPathStart.x} ${textPathStart.y}
+        `);
+    }
 
     return stripWhitespace(`
         M ${textPathStart.x} ${textPathStart.y}
