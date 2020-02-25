@@ -19,3 +19,8 @@ import { getWheelSegmentPaths } from '@renaatdemuynck/svg-wheel-generator';
 
 let paths = getWheelSegmentPaths(8, 150, 50, 20);
 ```
+
+## Documentation
+
+ - [API](docs/API.md)
+ - Examples (TODO)
