@@ -18,6 +18,7 @@ import { ShapeInfo, Intersection } from 'kld-intersections';
 /**
  * Strips the whitespace from the path data
  *
+ * @private
  * @param {string} path - The path data
  * @returns {string} The path data without unnecessary whitespace
  */
@@ -30,6 +31,7 @@ function stripWhitespace(path) {
  *
  * The coordinates of the point will be round to a precision of two decimals
  *
+ * @private
  * @param {ShapeInfo} shape1 - The first shape
  * @param {ShapeInfo} shape1 - The second shape
  * @returns {Point} The intersection point
@@ -46,6 +48,7 @@ function getIntersection(shape1, shape2) {
 /**
  * Converts degrees to radials
  *
+ * @private
  * @param  {number} deg - An angle in degrees
  * @returns {number} An angle in radials
  */
@@ -56,6 +59,7 @@ function degToRad(deg) {
 /**
  * Gets the X and Y offset for points perpendicular to a line
  *
+ * @private
  * @param {Point} start - The starting point of the line
  * @param {Point} end - The ending point of the line
  * @param {Point} offset - The distance of the points perpendicular to the line
@@ -76,6 +80,7 @@ function getPerpendicularOffset(start, end, offset) {
 /**
  * Gets the point on a circle at the specified angle
  *
+ * @ignore
  * @param  {number} angle - The angle in degrees
  * @param  {number} radius - The radius of the circle
  * @param  {Point} origin - The origin point of the circle
@@ -91,6 +96,7 @@ export function getPointOnCircle(angle, radius, origin = { x: 0, y: 0 }) {
 /**
  * Gets the start and end points of a line parallel at a given distance left of another line
  *
+ * @ignore
  * @param {Point} start - The starting point of the line
  * @param {Point} end - The ending point of the line
  * @param {number} offset - The distance of the parallel to the given line
@@ -114,6 +120,7 @@ export function getLeftParallelLine(start, end, offset) {
 /**
  * Gets the start and end points of a line parallel at a given distance right of another line
  *
+ * @ignore
  * @param {Point} start - The starting point of the line
  * @param {Point} end - The ending point of the line
  * @param {number} offset - The distance of the parallel to the given line
