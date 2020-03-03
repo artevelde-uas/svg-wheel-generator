@@ -27,17 +27,6 @@ function stripWhitespace(path) {
 }
 
 /**
- * Converts degrees to radials
- *
- * @private
- * @param  {number} deg - An angle in degrees
- * @returns {number} An angle in radials
- */
-function degToRad(deg) {
-    return ((deg % 360) - 90) / 180 * Math.PI;
-}
-
-/**
  * Gets the X and Y offset for points perpendicular to a line
  *
  * @private
@@ -59,18 +48,18 @@ function getPerpendicularOffset(start, end, offset) {
 }
 
 /**
- * Gets the point on a circle at the specified angle
+ * Gets the point on a circle at the specified angle (in radians)
  *
  * @ignore
- * @param  {number} angle - The angle in degrees
+ * @param  {number} angle - The angle (in radians)
  * @param  {number} radius - The radius of the circle
  * @param  {Point} origin - The origin point of the circle
  * @returns {Point} A point on the circle
  */
 export function getPointOnCircle(angle, radius, origin = { x: 0, y: 0 }) {
     return {
-        x: origin.x + radius * Math.cos(degToRad(angle)),
-        y: origin.y + radius * Math.sin(degToRad(angle))
+        x: origin.x + radius * Math.cos(angle),
+        y: origin.y + radius * Math.sin(angle)
     };
 }
 
@@ -125,8 +114,8 @@ export function getRightParallelLine(start, end, offset) {
 /**
  * Gets the path of a segment of a wheel
  *
- * @param {number} startAngle - The start angle of the segment
- * @param {number} endAngle - The end angle of the segment
+ * @param {number} startAngle - The start angle (in radians) of the segment
+ * @param {number} endAngle - The end angle (in radians) of the segment
  * @param {number} outerRadius - The outer radius of the segment
  * @param {number} innerRadius - The inner radius of the segment
  * @param {number} spokeWidth - The width of the space between the segments
@@ -183,12 +172,12 @@ export function getWheelSegmentPath(startAngle, endAngle, outerRadius, innerRadi
  * @param {number} outerRadius - The outer radius of the wheel
  * @param {number} innerRadius - The inner radius of the wheel
  * @param {number} spokeWidth - The width of the space between the segments
- * @param {number} angleOffset - The starting angle of the first segment (starting from the top)
+ * @param {number} angleOffset - The starting angle (in radians) of the first segment (starting from the right)
  * @param {Point} origin - The origin point of the inner and outer circles that make up the segments
  * @returns {string[]} An array of path data
  */
 export function getWheelSegmentPaths(segmentCount, outerRadius, innerRadius = 0, spokeWidth = 0, angleOffset = 0, origin = { x: 0, y: 0 }) {
-    let segmentLength = 360 / segmentCount;
+    let segmentLength = 2 * Math.PI / segmentCount;
 
     return Array.from({ length: segmentCount }, (currentValue, index) => {
         let startAngle = angleOffset + (index * segmentLength);
@@ -201,8 +190,8 @@ export function getWheelSegmentPaths(segmentCount, outerRadius, innerRadius = 0,
 /**
  * Gets the arc text path of a segment of a wheel
  *
- * @param {number} startAngle - The start angle of the segment
- * @param {number} endAngle - The end angle of the segment
+ * @param {number} startAngle - The start angle (in radians) of the segment
+ * @param {number} endAngle - The end angle (in radians) of the segment
  * @param {number} outerRadius - The outer radius of the segment
  * @param {number} innerRadius - The inner radius of the segment
  * @param {number} spokeWidth - The width of the space between the segments
@@ -250,12 +239,12 @@ export function getWheelSegmentArcTextPath(startAngle, endAngle, outerRadius, in
  * @param {number} outerRadius - The outer radius of the wheel
  * @param {number} innerRadius - The inner radius of the wheel
  * @param {number} spokeWidth - The width of the space between the segments
- * @param {number} angleOffset - The starting angle of the first segment (starting from the top)
+ * @param {number} angleOffset - The starting angle (in radians) of the first segment (starting from the right)
  * @param {Point} origin - The origin point of the inner and outer circles that make up the segments
  * @returns {string[]} An array of path data
  */
 export function getWheelSegmentArcTextPaths(segmentCount, outerRadius, innerRadius = 0, spokeWidth = 0, angleOffset = 0, origin = { x: 0, y: 0 }) {
-    let segmentLength = 360 / segmentCount;
+    let segmentLength = 2 * Math.PI / segmentCount;
 
     return Array.from({ length: segmentCount }, (currentValue, index) => {
         let startAngle = angleOffset + (index * segmentLength);
@@ -268,8 +257,8 @@ export function getWheelSegmentArcTextPaths(segmentCount, outerRadius, innerRadi
 /**
  * Gets the line text path of a segment of a wheel
  *
- * @param {number} startAngle - The start angle of the segment
- * @param {number} endAngle - The end angle of the segment
+ * @param {number} startAngle - The start angle (in radians) of the segment
+ * @param {number} endAngle - The end angle (in radians) of the segment
  * @param {number} outerRadius - The outer radius of the segment
  * @param {number} innerRadius - The inner radius of the segment
  * @param {number} spokeWidth - The width of the space between the segments
@@ -309,12 +298,12 @@ export function getWheelSegmentLineTextPath(startAngle, endAngle, outerRadius, i
  * @param {number} outerRadius - The outer radius of the wheel
  * @param {number} innerRadius - The inner radius of the wheel
  * @param {number} spokeWidth - The width of the space between the segments
- * @param {number} angleOffset - The starting angle of the first segment (starting from the top)
+ * @param {number} angleOffset - The starting angle (in radians) of the first segment (starting from the right)
  * @param {Point} origin - The origin point of the inner and outer circles that make up the segments
  * @returns {string[]} An array of path data
  */
 export function getWheelSegmentLineTextPaths(segmentCount, outerRadius, innerRadius = 0, spokeWidth = 0, angleOffset = 0, origin = { x: 0, y: 0 }) {
-    let segmentLength = 360 / segmentCount;
+    let segmentLength = 2 * Math.PI / segmentCount;
 
     return Array.from({ length: segmentCount }, (currentValue, index) => {
         let startAngle = angleOffset + (index * segmentLength);
