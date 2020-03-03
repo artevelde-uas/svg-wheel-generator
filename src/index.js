@@ -268,12 +268,11 @@ export function getWheelSegmentArcTextPaths(segmentCount, outerRadius, innerRadi
 export function getWheelSegmentLineTextPath(startAngle, endAngle, outerRadius, innerRadius = 0, spokeWidth = 0, origin = { x: 0, y: 0 }) {
     let middleAngle = (startAngle + endAngle) / 2;
 
-    let lineStart = getPointOnCircle(middleAngle, innerRadius, origin);
-    let lineEnd = getPointOnCircle(middleAngle, outerRadius + 1, origin);
+    let lineEnd = getPointOnCircle(middleAngle, outerRadius + 1, center);
 
-    let lineShape = ShapeInfo.line(lineStart, lineEnd);
-    let innerCircleShape = ShapeInfo.circle(origin, innerRadius);
-    let outerCircleShape = ShapeInfo.circle(origin, outerRadius);
+    let lineShape = ShapeInfo.line(center, lineEnd);
+    let innerCircleShape = ShapeInfo.circle(center, innerRadius);
+    let outerCircleShape = ShapeInfo.circle(center, outerRadius);
 
     let textPathStart = Intersection.intersect(lineShape, innerCircleShape).points[0];
     let textPathEnd = Intersection.intersect(lineShape, outerCircleShape).points[0];
