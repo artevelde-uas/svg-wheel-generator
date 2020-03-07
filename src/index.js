@@ -311,3 +311,57 @@ export function getAnnulusSectorLineTextPaths(sectorCount, outerRadius, innerRad
         return getAnnulusSectorLineTextPath(startAngle, endAngle, outerRadius, innerRadius, spokeWidth, center);
     });
 }
+
+/* DEPRECATED FUNCTIONS */
+
+function degToRad(deg) {
+    return ((deg % 360) - 90) / 180 * Math.PI;
+}
+
+/**
+ * @deprecated
+ * @see getAnnulusSectorPath
+ */
+export function getWheelSegmentPath(startAngle, endAngle, outerRadius, innerRadius = 0, spokeWidth = 0, center = { x: 0, y: 0 }) {
+    return getAnnulusSectorPath(degToRad(startAngle), degToRad(endAngle), outerRadius, innerRadius, spokeWidth, center);
+}
+
+/**
+ * @deprecated
+ * @see getAnnulusSectorPaths
+ */
+export function getWheelSegmentPaths(segmentCount, outerRadius, innerRadius = 0, spokeWidth = 0, angleOffset = 0, center = { x: 0, y: 0 }) {
+    return getAnnulusSectorPaths(segmentCount, outerRadius, innerRadius, spokeWidth, degToRad(angleOffset), center);
+}
+
+/**
+ * @deprecated
+ * @see getAnnulusSectorArcTextPath
+ */
+export function getWheelSegmentArcTextPath(startAngle, endAngle, outerRadius, innerRadius = 0, spokeWidth = 0, center = { x: 0, y: 0 }) {
+    return getAnnulusSectorArcTextPath(degToRad(startAngle), degToRad(endAngle), outerRadius, innerRadius, spokeWidth, center);
+}
+
+/**
+ * @deprecated
+ * @see getAnnulusSectorArcTextPaths
+ */
+export function getWheelSegmentArcTextPaths(segmentCount, outerRadius, innerRadius = 0, spokeWidth = 0, angleOffset = 0, center = { x: 0, y: 0 }) {
+    return getAnnulusSectorArcTextPaths(segmentCount, outerRadius, innerRadius, spokeWidth, degToRad(angleOffset), center);
+}
+
+/**
+ * @deprecated
+ * @see getAnnulusSectorLineTextPath
+ */
+export function getWheelSegmentLineTextPath(startAngle, endAngle, outerRadius, innerRadius = 0, spokeWidth = 0, center = { x: 0, y: 0 }) {
+    return getAnnulusSectorLineTextPath(degToRad(startAngle), degToRad(endAngle), outerRadius, innerRadius, spokeWidth, center);
+}
+
+/**
+ * @deprecated
+ * @see getAnnulusSectorLineTextPaths
+ */
+export function getWheelSegmentLineTextPaths(segmentCount, outerRadius, innerRadius = 0, spokeWidth = 0, angleOffset = 0, center = { x: 0, y: 0 }) {
+    return getAnnulusSectorLineTextPaths(segmentCount, outerRadius, innerRadius, spokeWidth, degToRad(angleOffset), center);
+}
