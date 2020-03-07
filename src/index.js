@@ -53,13 +53,13 @@ function getPerpendicularOffset(start, end, offset) {
  * @ignore
  * @param  {number} angle - The angle (in radians)
  * @param  {number} radius - The radius of the circle
- * @param  {Point} origin - The origin point of the circle
+ * @param  {Point} center - The center point of the circle
  * @returns {Point} A point on the circle
  */
-export function getPointOnCircle(angle, radius, origin = { x: 0, y: 0 }) {
+export function getPointOnCircle(angle, radius, center = { x: 0, y: 0 }) {
     return {
-        x: origin.x + radius * Math.cos(angle),
-        y: origin.y + radius * Math.sin(angle)
+        x: center.x + radius * Math.cos(angle),
+        y: center.y + radius * Math.sin(angle)
     };
 }
 
@@ -112,32 +112,32 @@ export function getRightParallelLine(start, end, offset) {
 }
 
 /**
- * Gets the path of a segment of a wheel
+ * Gets the path of an annulus sector
  *
- * @param {number} startAngle - The start angle (in radians) of the segment
- * @param {number} endAngle - The end angle (in radians) of the segment
- * @param {number} outerRadius - The outer radius of the segment
- * @param {number} innerRadius - The inner radius of the segment
- * @param {number} spokeWidth - The width of the space between the segments
- * @param {Point} origin - The origin point of the inner and outer circles that make up the segments
+ * @param {number} startAngle - The start angle (in radians) of the sector
+ * @param {number} endAngle - The end angle (in radians) of the sector
+ * @param {number} outerRadius - The outer radius of the sector
+ * @param {number} innerRadius - The inner radius of the sector
+ * @param {number} spokeWidth - The width of the space between the sectors
+ * @param {Point} center - The center point of the inner and outer circles that make up the sectors
  * @returns {string} The path data
  */
-export function getWheelSegmentPath(startAngle, endAngle, outerRadius, innerRadius = 0, spokeWidth = 0, origin = { x: 0, y: 0 }) {
+export function getAnnulusSectorPath(startAngle, endAngle, outerRadius, innerRadius = 0, spokeWidth = 0, center = { x: 0, y: 0 }) {
     let leftLine = getRightParallelLine(
-        origin,
-        getPointOnCircle(startAngle, outerRadius + 1, origin),
+        center,
+        getPointOnCircle(startAngle, outerRadius + 1, center),
         spokeWidth / 2
     );
     let rightLine = getLeftParallelLine(
-        origin,
-        getPointOnCircle(endAngle, outerRadius + 1, origin),
+        center,
+        getPointOnCircle(endAngle, outerRadius + 1, center),
         spokeWidth / 2
     );
 
     let leftLineShape = ShapeInfo.line(leftLine.start, leftLine.end);
     let rightLineShape = ShapeInfo.line(rightLine.start, rightLine.end);
-    let outerCircleShape = ShapeInfo.circle(origin, outerRadius);
-    let innerCircleShape = ShapeInfo.circle(origin, innerRadius);
+    let outerCircleShape = ShapeInfo.circle(center, outerRadius);
+    let innerCircleShape = ShapeInfo.circle(center, innerRadius);
 
     let outerArcStart = Intersection.intersect(leftLineShape, outerCircleShape).points[0];
     let outerArcEnd = Intersection.intersect(rightLineShape, outerCircleShape).points[0];
@@ -166,47 +166,47 @@ export function getWheelSegmentPath(startAngle, endAngle, outerRadius, innerRadi
 }
 
 /**
- * Gets the paths of a given number of equal segments of a wheel
+ * Gets the paths of a given number of equal sectors of an annulus
  *
- * @param {number} segmentCount - The number of segments to divide the wheel in
- * @param {number} outerRadius - The outer radius of the wheel
- * @param {number} innerRadius - The inner radius of the wheel
- * @param {number} spokeWidth - The width of the space between the segments
- * @param {number} angleOffset - The starting angle (in radians) of the first segment (starting from the right)
- * @param {Point} origin - The origin point of the inner and outer circles that make up the segments
+ * @param {number} sectorCount - The number of sectors to divide the annulus in
+ * @param {number} outerRadius - The outer radius of the annulus
+ * @param {number} innerRadius - The inner radius of the annulus
+ * @param {number} spokeWidth - The width of the space between the sectors
+ * @param {number} angleOffset - The starting angle (in radians) of the first sector (starting from the right)
+ * @param {Point} center - The center point of the inner and outer circles that make up the sectors
  * @returns {string[]} An array of path data
  */
-export function getWheelSegmentPaths(segmentCount, outerRadius, innerRadius = 0, spokeWidth = 0, angleOffset = 0, origin = { x: 0, y: 0 }) {
-    let segmentLength = 2 * Math.PI / segmentCount;
+export function getAnnulusSectorPaths(sectorCount, outerRadius, innerRadius = 0, spokeWidth = 0, angleOffset = 0, center = { x: 0, y: 0 }) {
+    let outerArcLength = 2 * Math.PI / sectorCount;
 
-    return Array.from({ length: segmentCount }, (currentValue, index) => {
-        let startAngle = angleOffset + (index * segmentLength);
-        let endAngle = startAngle + segmentLength;
+    return Array.from({ length: sectorCount }, (currentValue, index) => {
+        let startAngle = angleOffset + (index * outerArcLength);
+        let endAngle = startAngle + outerArcLength;
 
-        return getWheelSegmentPath(startAngle, endAngle, outerRadius, innerRadius, spokeWidth, origin);
+        return getAnnulusSectorPath(startAngle, endAngle, outerRadius, innerRadius, spokeWidth, center);
     });
 }
 
 /**
- * Gets the arc text path of a segment of a wheel
+ * Gets the arc text path of an annulus sector
  *
- * @param {number} startAngle - The start angle (in radians) of the segment
- * @param {number} endAngle - The end angle (in radians) of the segment
- * @param {number} outerRadius - The outer radius of the segment
- * @param {number} innerRadius - The inner radius of the segment
- * @param {number} spokeWidth - The width of the space between the segments
- * @param {Point} origin - The origin point of the inner and outer circles that make up the segments
+ * @param {number} startAngle - The start angle (in radians) of the sector
+ * @param {number} endAngle - The end angle (in radians) of the sector
+ * @param {number} outerRadius - The outer radius of the sector
+ * @param {number} innerRadius - The inner radius of the sector
+ * @param {number} spokeWidth - The width of the space between the sectors
+ * @param {Point} center - The center point of the inner and outer circles that make up the sectors
  * @returns {string} The path data
  */
-export function getWheelSegmentArcTextPath(startAngle, endAngle, outerRadius, innerRadius = 0, spokeWidth = 0, origin = { x: 0, y: 0 }) {
+export function getAnnulusSectorArcTextPath(startAngle, endAngle, outerRadius, innerRadius = 0, spokeWidth = 0, center = { x: 0, y: 0 }) {
     let leftLine = getRightParallelLine(
-        origin,
-        getPointOnCircle(startAngle, outerRadius, origin),
+        center,
+        getPointOnCircle(startAngle, outerRadius, center),
         spokeWidth / 2
     );
     let rightLine = getLeftParallelLine(
-        origin,
-        getPointOnCircle(endAngle, outerRadius, origin),
+        center,
+        getPointOnCircle(endAngle, outerRadius, center),
         spokeWidth / 2
     );
 
@@ -214,7 +214,7 @@ export function getWheelSegmentArcTextPath(startAngle, endAngle, outerRadius, in
 
     let leftLineShape = ShapeInfo.line(leftLine.start, leftLine.end);
     let rightLineShape = ShapeInfo.line(rightLine.start, rightLine.end);
-    let circleShape = ShapeInfo.circle(origin, middleRadius);
+    let circleShape = ShapeInfo.circle(center, middleRadius);
 
     let textPathStart = Intersection.intersect(leftLineShape, circleShape).points[0];
     let textPathEnd = Intersection.intersect(rightLineShape, circleShape).points[0];
@@ -233,39 +233,39 @@ export function getWheelSegmentArcTextPath(startAngle, endAngle, outerRadius, in
 }
 
 /**
- * Gets the arc text paths of a given number of equal segments of a wheel
+ * Gets the arc text paths of a given number of equal sectors of an annulus
  *
- * @param {number} segmentCount - The number of segments to divide the wheel in
- * @param {number} outerRadius - The outer radius of the wheel
- * @param {number} innerRadius - The inner radius of the wheel
- * @param {number} spokeWidth - The width of the space between the segments
- * @param {number} angleOffset - The starting angle (in radians) of the first segment (starting from the right)
- * @param {Point} origin - The origin point of the inner and outer circles that make up the segments
+ * @param {number} sectorCount - The number of sectors to divide the annulus in
+ * @param {number} outerRadius - The outer radius of the annulus
+ * @param {number} innerRadius - The inner radius of the annulus
+ * @param {number} spokeWidth - The width of the space between the sectors
+ * @param {number} angleOffset - The starting angle (in radians) of the first sector (starting from the right)
+ * @param {Point} center - The center point of the inner and outer circles that make up the sectors
  * @returns {string[]} An array of path data
  */
-export function getWheelSegmentArcTextPaths(segmentCount, outerRadius, innerRadius = 0, spokeWidth = 0, angleOffset = 0, origin = { x: 0, y: 0 }) {
-    let segmentLength = 2 * Math.PI / segmentCount;
+export function getAnnulusSectorArcTextPaths(sectorCount, outerRadius, innerRadius = 0, spokeWidth = 0, angleOffset = 0, center = { x: 0, y: 0 }) {
+    let outerArcLength = 2 * Math.PI / sectorCount;
 
-    return Array.from({ length: segmentCount }, (currentValue, index) => {
-        let startAngle = angleOffset + (index * segmentLength);
-        let endAngle = startAngle + segmentLength;
+    return Array.from({ length: sectorCount }, (currentValue, index) => {
+        let startAngle = angleOffset + (index * outerArcLength);
+        let endAngle = startAngle + outerArcLength;
 
-        return getWheelSegmentArcTextPath(startAngle, endAngle, outerRadius, innerRadius, spokeWidth, origin);
+        return getAnnulusSectorArcTextPath(startAngle, endAngle, outerRadius, innerRadius, spokeWidth, center);
     });
 }
 
 /**
- * Gets the line text path of a segment of a wheel
+ * Gets the line text path of an annulus sector
  *
- * @param {number} startAngle - The start angle (in radians) of the segment
- * @param {number} endAngle - The end angle (in radians) of the segment
- * @param {number} outerRadius - The outer radius of the segment
- * @param {number} innerRadius - The inner radius of the segment
- * @param {number} spokeWidth - The width of the space between the segments
- * @param {Point} origin - The origin point of the inner and outer circles that make up the segments
+ * @param {number} startAngle - The start angle (in radians) of the sector
+ * @param {number} endAngle - The end angle (in radians) of the sector
+ * @param {number} outerRadius - The outer radius of the sector
+ * @param {number} innerRadius - The inner radius of the sector
+ * @param {number} spokeWidth - The width of the space between the sectors
+ * @param {Point} center - The center point of the inner and outer circles that make up the sectors
  * @returns {string} The path data
  */
-export function getWheelSegmentLineTextPath(startAngle, endAngle, outerRadius, innerRadius = 0, spokeWidth = 0, origin = { x: 0, y: 0 }) {
+export function getAnnulusSectorLineTextPath(startAngle, endAngle, outerRadius, innerRadius = 0, spokeWidth = 0, center = { x: 0, y: 0 }) {
     let middleAngle = (startAngle + endAngle) / 2;
 
     let lineEnd = getPointOnCircle(middleAngle, outerRadius + 1, center);
@@ -291,23 +291,23 @@ export function getWheelSegmentLineTextPath(startAngle, endAngle, outerRadius, i
 }
 
 /**
- * Gets the line text paths of a given number of equal segments of a wheel
+ * Gets the line text paths of a given number of equal sectors of an annulus
  *
- * @param {number} segmentCount - The number of segments to divide the wheel in
- * @param {number} outerRadius - The outer radius of the wheel
- * @param {number} innerRadius - The inner radius of the wheel
- * @param {number} spokeWidth - The width of the space between the segments
- * @param {number} angleOffset - The starting angle (in radians) of the first segment (starting from the right)
- * @param {Point} origin - The origin point of the inner and outer circles that make up the segments
+ * @param {number} sectorCount - The number of sectors to divide the annulus in
+ * @param {number} outerRadius - The outer radius of the annulus
+ * @param {number} innerRadius - The inner radius of the annulus
+ * @param {number} spokeWidth - The width of the space between the sectors
+ * @param {number} angleOffset - The starting angle (in radians) of the first sector (starting from the right)
+ * @param {Point} center - The center point of the inner and outer circles that make up the sectors
  * @returns {string[]} An array of path data
  */
-export function getWheelSegmentLineTextPaths(segmentCount, outerRadius, innerRadius = 0, spokeWidth = 0, angleOffset = 0, origin = { x: 0, y: 0 }) {
-    let segmentLength = 2 * Math.PI / segmentCount;
+export function getAnnulusSectorLineTextPaths(sectorCount, outerRadius, innerRadius = 0, spokeWidth = 0, angleOffset = 0, center = { x: 0, y: 0 }) {
+    let outerArcLength = 2 * Math.PI / sectorCount;
 
-    return Array.from({ length: segmentCount }, (currentValue, index) => {
-        let startAngle = angleOffset + (index * segmentLength);
-        let endAngle = startAngle + segmentLength;
+    return Array.from({ length: sectorCount }, (currentValue, index) => {
+        let startAngle = angleOffset + (index * outerArcLength);
+        let endAngle = startAngle + outerArcLength;
 
-        return getWheelSegmentLineTextPath(startAngle, endAngle, outerRadius, innerRadius, spokeWidth, origin);
+        return getAnnulusSectorLineTextPath(startAngle, endAngle, outerRadius, innerRadius, spokeWidth, center);
     });
 }
