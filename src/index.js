@@ -51,6 +51,7 @@ function getPerpendicularOffset(start, end, offset) {
  * Gets the point on a circle at the specified angle (in radians)
  *
  * @ignore
+ * @deprecated Will be internal function in next major version
  * @param  {number} angle - The angle (in radians)
  * @param  {number} radius - The radius of the circle
  * @param  {Point} center - The center point of the circle
@@ -67,6 +68,7 @@ export function getPointOnCircle(angle, radius, center = { x: 0, y: 0 }) {
  * Gets the start and end points of a line parallel at a given distance left of another line
  *
  * @ignore
+ * @deprecated Will be internal function in next major version
  * @param {Point} start - The starting point of the line
  * @param {Point} end - The ending point of the line
  * @param {number} offset - The distance of the parallel to the given line
@@ -91,6 +93,7 @@ export function getLeftParallelLine(start, end, offset) {
  * Gets the start and end points of a line parallel at a given distance right of another line
  *
  * @ignore
+ * @deprecated Will be internal function in next major version
  * @param {Point} start - The starting point of the line
  * @param {Point} end - The ending point of the line
  * @param {number} offset - The distance of the parallel to the given line
